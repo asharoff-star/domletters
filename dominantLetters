@@ -1,0 +1,65 @@
+#!/usr/bin/python3
+import sys
+
+#getting data from stdin to then find the dom letters of
+rawInput = sys.stdin.readlines()
+theFilter = ""
+theInput = ""
+
+#set up raw output for parsing by storing it all in a string line by line
+for i in range(len(rawInput)):
+    theFilter = theFilter + rawInput[i]
+ 
+#remove \n from raw output and store it in theInput variable
+for i in range(len(theFilter)):
+    if(theFilter[i] == "\n"):
+        theInput = theInput + " "
+        continue
+    theInput = theInput + theFilter[i]
+
+tempWord = ""
+countingWord = True
+theReal = theInput
+theInput = ""
+
+#change all letters in theInput string to lowercase
+for i in range(len(theReal)):
+    if(theReal[i].isalpha() == True):
+        theInput = theInput + theReal[i].lower()
+    if(theReal[i].isalpha() == False):
+        theInput = theInput + theReal[i]
+
+#counts the number of dominant letters in the given word.
+def countDomLetters(theWord):
+    if(theWord == ""):
+        return 0
+    counter = 0
+    for i in range(len(theWord)):
+        if(theWord.count(theWord[i]) > counter):
+            counter = theWord.count(theWord[i])
+    return counter
+        
+numDomLetters = 0
+temp = 0
+#Iterates through the entire input string (which could be lines upon lines)
+#counts number of dominant letters on a word by word basis
+for i in range(len(theInput)):
+    if(theInput[i] == ' ' or i == (len(theInput)-1)):
+        if(countingWord==True and theInput[i] == ' '):
+            numDomLetters = numDomLetters + countDomLetters(tempWord)
+        countingWord = True
+        tempWord=""
+        if(i == (len(theInput)-1) and i == (len(theInput)-1)):
+            numDomLetters = numDomLetters + countDomLetters(tempWord)
+            break
+        if(i == (len(theInput)-1) and theInput[(len(theInput)-1)].isalpha() == False):
+            break
+        continue
+    if(theInput[i].isalpha() == True):
+        tempWord = tempWord + theInput[i]
+        continue
+    if(theInput[i].isalpha() == False):
+        tempWord = tempWord + theInput[i]
+        countingWord = False
+
+print(numDomLetters)
